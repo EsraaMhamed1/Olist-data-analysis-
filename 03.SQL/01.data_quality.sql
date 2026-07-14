@@ -440,3 +440,76 @@ go
 
 -------------------------------------------------------
 -------------------------------------------------------
+
+-------------------------
+--5. sellers 
+-------------------------
+go
+
+-- show data 
+SELECT *
+FROM   sellers;
+
+go
+
+-- uniqueness
+SELECT Count(DISTINCT seller_id) AS unique_id
+FROM   sellers;
+
+go
+
+--count rows
+SELECT Count(*) AS count_row
+FROM   sellers;
+
+go
+
+-- check nulls 
+SELECT Sum(CASE
+             WHEN seller_id IS NULL THEN 1
+             ELSE 0
+           END) AS seller_id_nulls,
+       Sum(CASE
+             WHEN seller_zip_code_prefix IS NULL THEN 1
+             ELSE 0
+           END) AS seller_zip_cod_nulls,
+       Sum(CASE
+             WHEN seller_city IS NULL THEN 1
+             ELSE 0
+           END) AS seller_city_nulls,
+       Sum(CASE
+             WHEN seller_state IS NULL THEN 1
+             ELSE 0
+           END) AS seller_state_nulls
+FROM   sellers;
+
+go
+
+-- explor data 
+SELECT seller_city,
+       Count(*) AS num_cities
+FROM   sellers
+GROUP  BY seller_city;
+
+go
+
+SELECT DISTINCT seller_city
+FROM   sellers;
+
+go
+
+SELECT seller_state,
+       Count(*) AS num_of_states
+FROM   sellers
+GROUP  BY seller_state;
+
+go 
+
+SELECT seller_state,
+       Count(seller_id) AS num_of_sellers
+FROM   sellers
+GROUP  BY seller_state; 
+go 
+
+----------------------------------------------
+---------------------------------------------
