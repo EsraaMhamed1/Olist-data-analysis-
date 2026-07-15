@@ -6,17 +6,29 @@ The order_payments table contains payment information for each order, including 
 multiple records may exist for the same order_id.
 
 Data Quality Assessment
+-----------------------
 
-The table contains 103,886 records. A uniqueness check confirmed that order_id alone is not unique, which is expected because one order may have multiple payment records. However, the combination of (order_id, payment_sequential) uniquely identifies each payment transaction, and no duplicate composite keys were found.
+The table contains 103,886 records. A uniqueness check confirmed that order_id alone is not unique, which is expected because one order may have multiple payment records.
+However, the combination of (order_id, payment_sequential) uniquely identifies each payment transaction, and no duplicate composite keys were found.
 
 A missing values assessment showed that no NULL values exist in any column, indicating that the payment data is complete and does not require any missing value treatment.
+---------------------------
 
-Business rule validation was performed to detect invalid payment values. No negative payment amounts were found, and no negative installment values were detected. However, two records were identified where payment_installments equals 0 while the payment method is credit_card. Although this is unusual, these records represent a very small percentage of the dataset and were documented as minor data inconsistencies that are unlikely to affect the overall analysis.
+Business rule validation was performed to detect invalid payment values. No negative payment amounts were found, and no negative installment values were detected. However,
+------------------------
+two records were identified where payment_installments equals 0 while the payment method is credit_card. Although this is unusual,
+these records represent a very small percentage of the dataset and were documented as minor data inconsistencies that are unlikely to affect the overall analysis.
 
-Different payment methods were explored to understand the available payment options and their distribution across customer orders. Installment values were also analyzed to support future business analysis related to customer payment behavior.
+Different payment methods were explored to understand the available payment options and their distribution across customer orders. 
+Installment values were also analyzed to support future business analysis related to customer payment behavior.
 
-Finally, referential integrity was validated by comparing the order_payments table with the orders table. Every payment record had a matching order record, confirming that no orphan payment records exist in the dataset.
+Finally,
+-------
+referential integrity was validated by comparing the order_payments table with the orders table. 
+Every payment record had a matching order record, confirming that no orphan payment records exist in the dataset.
 
 Conclusion
-
-Overall, the order_payments table demonstrates high data quality. It contains no missing values, maintains valid relationships with the orders table, and satisfies the expected business rules. The only observation was the presence of two credit_card transactions with zero installments, which were documented as minor inconsistencies but are not significant enough to impact the reliability of the dataset for subsequent analysis.
+----------
+Overall, the order_payments table demonstrates high data quality. It contains no missing values, maintains valid relationships with the orders table, 
+and satisfies the expected business rules. The only observation was the presence of two credit_card transactions with zero installments,
+which were documented as minor inconsistencies but are not significant enough to impact the reliability of the dataset for subsequent analysis.
