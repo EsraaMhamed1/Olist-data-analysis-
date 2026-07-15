@@ -513,3 +513,127 @@ go
 
 ----------------------------------------------
 ---------------------------------------------
+
+------------------
+--6.payments 
+------------------
+go
+
+-- show data 
+SELECT *
+FROM   order_payments;
+
+go
+
+-- count rows 
+SELECT Count(*) AS count_row
+FROM   order_payments;
+
+go
+
+-- uniqueness 
+SELECT Count(DISTINCT payment_sequential) AS test_for_pk
+FROM   order_payments;
+
+go
+
+-- composit key
+SELECT order_id,
+       payment_sequential,
+       Count(*) cnt
+FROM   order_payments
+GROUP  BY order_id,
+          payment_sequential
+HAVING Count(*) > 1;
+
+go
+
+-- check nulls 
+SELECT Sum(CASE
+             WHEN order_id IS NULL THEN 1
+             ELSE 0
+           END) AS order_id_nulls,
+       Sum(CASE
+             WHEN payment_sequential IS NULL THEN 1
+             ELSE 0
+           END) AS payment_sequential_nulls,
+       Sum(CASE
+             WHEN payment_type IS NULL THEN 1
+             ELSE 0
+           END) AS payment_typ_nulls,
+       Sum(CASE
+             WHEN payment_installments IS NULL THEN 1
+             ELSE 0
+           END) AS payment_installments_nulls,
+       Sum(CASE
+             WHEN payment_value IS NULL THEN 1
+             ELSE 0
+           END) AS payment_value_nulls
+FROM   order_payments;
+
+go
+
+-- Business Rules 
+SELECT Count(*) AS negative_payment_value
+FROM   order_payments
+WHERE  payment_value < 0;
+
+go
+
+SELECT Count(*) AS no_payment_value
+FROM   order_payments
+WHERE  payment_value = 0;
+
+go
+
+SELECT Count(*) AS payment_installments_zero
+FROM   order_payments
+WHERE  payment_installments = 0;
+
+go
+
+SELECT Count(*) AS negative_payment_installments
+FROM   order_payments
+WHERE  payment_installments < 0;
+
+go
+
+-- explore payment typs 
+SELECT DISTINCT payment_type
+FROM   order_payments;
+
+go
+
+-- the most popular type 
+SELECT payment_type,
+       Count(*) AS num_of_orders_paid
+FROM   order_payments
+GROUP  BY payment_type;
+
+go
+
+-- avg payment val 
+SELECT payment_type,
+       Avg(payment_value) AS avg_paymnet
+FROM   order_payments
+GROUP  BY payment_type;
+
+go
+
+-- installments 
+SELECT payment_installments,
+       Count(*) AS num_of_installments
+FROM   order_payments
+GROUP  BY payment_installments
+ORDER  BY payment_installments ASC;
+
+go
+
+-- referntial integrity 
+SELECT *
+FROM   order_payments op
+       LEFT JOIN orders o
+              ON o.order_id = op.order_id
+WHERE  o.order_id IS NULL;
+
+go 
