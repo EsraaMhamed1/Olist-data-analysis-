@@ -598,6 +598,11 @@ WHERE  payment_installments < 0;
 
 go
 
+SELECT *
+FROM order_payments
+WHERE payment_installments = 0;
+go 
+
 -- explore payment typs 
 SELECT DISTINCT payment_type
 FROM   order_payments;
