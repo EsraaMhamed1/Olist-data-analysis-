@@ -1,9 +1,9 @@
 ------------------------------
-order_payments 
---------------
+6. order_payments 
+-----------------
 
-The order_payments table contains payment information for each order, including the payment method, payment amount, installment details, and payment sequence. Since a single order can be paid using multiple payment transactions or payment methods, 
-multiple records may exist for the same order_id.
+The order_payments table contains payment information for each order, including the payment method, payment amount, installment details,
+and payment sequence. Since a single order can be paid using multiple payment transactions or payment methods, multiple records may exist for the same order_id.
 
 Data Quality Assessment
 -----------------------
