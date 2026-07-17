@@ -645,4 +645,116 @@ go
 
 ---------------------------------------------
 ---------------------------------------------
+-------------------------
+-- 7. reviews 
+-------------------------
+go
 
+-- show data 
+SELECT*
+FROM   order_reviews;
+
+go
+
+-- count rows 
+SELECT Count(*) AS ctn
+FROM   order_reviews;
+
+go
+
+-- uniquensess 
+SELECT Count(DISTINCT review_id) AS test_pk
+FROM   order_reviews;
+
+go
+
+SELECT review_id,
+       Count(review_id) AS num_of_rows_duplicated
+FROM   order_reviews
+GROUP  BY review_id
+HAVING Count(review_id) > 1
+
+go
+
+-- composit key 
+SELECT review_id,
+       order_id,
+       Count(*) AS ctn
+FROM   order_reviews
+GROUP  BY review_id,
+          order_id
+HAVING Count(*) > 1;
+
+go
+
+-- check nulls 
+SELECT Sum(CASE
+             WHEN review_id IS NULL THEN 1
+             ELSE 0
+           END),
+       Sum(CASE
+             WHEN order_id IS NULL THEN 1
+             ELSE 0
+           END),
+       Sum(CASE
+             WHEN review_score IS NULL THEN 1
+             ELSE 0
+           END),
+       Sum(CASE
+             WHEN review_comment_title IS NULL THEN 1
+             ELSE 0
+           END),
+       Sum(CASE
+             WHEN review_comment_message IS NULL THEN 1
+             ELSE 0
+           END),
+       Sum(CASE
+             WHEN review_creation_date IS NULL THEN 1
+             ELSE 0
+           END),
+       Sum(CASE
+             WHEN review_answer_timestamp IS NULL THEN 1
+             ELSE 0
+           END)
+FROM   order_reviews;
+
+go
+
+-- Business Rules 
+-- review score 
+SELECT Count(*) AS score_lesss_tnan_1
+FROM   order_reviews
+WHERE  review_score < 1;
+
+go
+
+SELECT Count(*) AS score_geater_tnan_5
+FROM   order_reviews
+WHERE  review_score > 5;
+
+go
+
+SELECT review_score,
+       Count(*) AS num_reviews
+FROM   order_reviews
+GROUP  BY review_score
+ORDER  BY review_score;
+
+go
+
+-- check dates 
+SELECT review_creation_date,
+       review_answer_timestamp
+FROM   order_reviews
+WHERE  review_creation_date > review_answer_timestamp;
+
+go
+
+-- refrential interity 
+SELECT *
+FROM   order_reviews r
+       LEFT JOIN orders o
+              ON r.order_id = o.order_id
+WHERE  o.order_id IS NULL;
+
+go 
