@@ -32,3 +32,26 @@ Conclusion
 Overall, the order_payments table demonstrates high data quality. It contains no missing values, maintains valid relationships with the orders table, 
 and satisfies the expected business rules. The only observation was the presence of two credit_card transactions with zero installments,
 which were documented as minor inconsistencies but are not significant enough to impact the reliability of the dataset for subsequent analysis.
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+8.Product Category Translation
+------------------------------
+
+The category_translation table was assessed for data quality by checking row count, uniqueness, missing values, and referential integrity.
+
+The product_category_name column was verified to be unique, making it suitable as the primary key of the table. No duplicate category names were found.
+
+Missing value analysis confirmed whether any category names or English translations were absent. Additionally, a business validation was performed to identify categories without English translations.
+
+Referential integrity was validated by comparing the translation table with the products table to ensure consistency between category names. 
+Any unmatched categories were documented for review but are not necessarily considered data quality issues, as some categories may simply not be used in the products dataset.
+
+Overall, the table is small, well-structured, and suitable for supporting category translation during the analysis and visualization phases.
+
+
+
+
+
+
+
