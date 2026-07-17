@@ -756,5 +756,70 @@ FROM   order_reviews r
        LEFT JOIN orders o
               ON r.order_id = o.order_id
 WHERE  o.order_id IS NULL;
+go 
+-----------------------------------
+----------------------------------=
+
+--------------------------------------
+-- product_category_name_translation
+--------------------------------------
+go
+
+-- show data 
+SELECT *
+FROM   category_translation;
+
+go
+
+-- count rows 
+SELECT Count(*) AS count_row
+FROM   category_translation;
+
+go
+
+-- uniqueness 
+SELECT product_category_name,
+       Count(*) AS ctn
+FROM   category_translation
+GROUP  BY product_category_name
+HAVING Count(*) > 1;
+
+go
+
+SELECT Count(*)                              AS total_rows,
+       Count(DISTINCT product_category_name) AS distinct_categories
+FROM   category_translation;
+
+go
+
+-- check nulls 
+SELECT Sum(CASE
+             WHEN product_category_name IS NULL THEN 1
+             ELSE 0
+           END) AS product_category_name_nulls,
+       Sum(CASE
+             WHEN [product_category_name_english] IS NULL THEN 1
+             ELSE 0
+           END) AS product_category_name_english_nulls
+FROM   category_translation;
+
+go
+
+-- Business check 
+SELECT Count(*) AS num_of_nulls
+FROM   category_translation
+WHERE  [product_category_name_english] IS NULL;
+
+go
+
+-- refrential integrity 
+SELECT *
+FROM   category_translation c
+       LEFT JOIN products p
+              ON p.product_category_name = c.product_category_name
+WHERE  p.product_category_name IS NULL; 
+go 
+  
+  
 
 go 
