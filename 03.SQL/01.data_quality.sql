@@ -974,4 +974,10 @@ WHERE  geolocation_lng > 180
 
 go  
 
-
+SELECT TOP 10
+geolocation_state,
+COUNT(*) AS num_locations
+FROM geolocation
+GROUP BY geolocation_state
+ORDER BY num_locations DESC;
+go
