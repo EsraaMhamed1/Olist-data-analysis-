@@ -2,20 +2,20 @@
 --------
 go
 
--- Total orders 
+-- 1. Total orders 
 SELECT Count(*) AS total_orders
 FROM   orders;
 
 go
 
---  successful orders  received 
+-- 2. successful orders  received 
 SELECT Count(*) AS successful_orders
 FROM   orders
 WHERE  order_status = 'delivered';
 
 go
 
--- successful order rate
+--3. successful order rate
 SELECT Count(*)                             AS total_orders,
        Sum(CASE
              WHEN order_status = 'delivered' THEN 1
@@ -29,7 +29,7 @@ FROM   orders;
 
 go 
 
--- Total Revenue
+--4. Total Revenue
 SELECT Sum(price) AS total_revenue
 FROM   order_items oi
        JOIN orders o
@@ -54,7 +54,7 @@ FROM   category_translation
       -------------------------------------------
 go
 
--- product categories generate the highest revenue
+--5. product categories generate the highest revenue
 SELECT ct.[product_category_name_english] AS Category,
        Round(Sum(oi.price), 2)             AS Revenue
 FROM   order_items oi
@@ -70,7 +70,7 @@ ORDER  BY revenue DESC;
 
 go 
 
--- Total Revenue
+--6. Total Revenue
 SELECT Sum(price) AS total_revenue
 FROM   order_items oi
        JOIN orders o
@@ -79,7 +79,7 @@ WHERE  o.order_status = 'delivered';
 
 go
 
--- product categories generate the highest revenue
+--7. product categories generate the highest revenue
 SELECT ct.[product_category_name_english] AS Category,
        Round(Sum(oi.price), 2)             AS Revenue
 FROM   order_items oi
@@ -95,7 +95,7 @@ ORDER  BY revenue DESC;
 
 go
 
--- revenue_contribution_pct
+--8. revenue_contribution_pct
 WITH category_revenue
      AS (SELECT ct.[product_category_name_english] AS category_name,
                 Sum(oi.price)                       AS revenue
@@ -118,7 +118,7 @@ ORDER  BY revenue DESC;
 go 
 
 
--- Avreage order value  AOV
+--9. Avreage order value  AOV
 SELECT Round(Sum(oi.price) / Count(DISTINCT o.order_id), 2) AS AVO
 FROM   orders o
        JOIN order_items oi
@@ -128,7 +128,7 @@ WHERE  o.order_status = 'delivered';
 go 
 
 
---8. Total Customers
+--10. Total Customers
 SELECT Count(DISTINCT customer_unique_id) AS total_customers
 FROM   customers;
 
