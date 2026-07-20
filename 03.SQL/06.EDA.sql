@@ -128,5 +128,9 @@ WHERE  o.order_status = 'delivered';
 go 
 
 
+--8. Total Customers
+SELECT Count(DISTINCT customer_unique_id) AS total_customers
+FROM   customers;
 
+go 
 
