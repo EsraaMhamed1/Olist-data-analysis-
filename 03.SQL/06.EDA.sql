@@ -118,6 +118,15 @@ ORDER  BY revenue DESC;
 go 
 
 
+-- Avreage order value  AOV
+SELECT Round(Sum(oi.price) / Count(DISTINCT o.order_id), 2) AS AVO
+FROM   orders o
+       JOIN order_items oi
+         ON o.order_id = oi.order_id
+WHERE  o.order_status = 'delivered';
+
+go 
+
 
 
 
