@@ -70,6 +70,53 @@ ORDER  BY revenue DESC;
 
 go 
 
+-- Total Revenue
+SELECT Sum(price) AS total_revenue
+FROM   order_items oi
+       JOIN orders o
+         ON o.order_id = oi.order_id
+WHERE  o.order_status = 'delivered';
+
+go
+
+-- product categories generate the highest revenue
+SELECT ct.[product_category_name_english] AS Category,
+       Round(Sum(oi.price), 2)             AS Revenue
+FROM   order_items oi
+       JOIN orders o
+         ON o.order_id = oi.order_id
+       JOIN products p
+         ON oi.product_id = p.product_id
+       JOIN category_translation ct
+         ON p.product_category_name = ct.product_category_name
+WHERE  order_status = 'delivered'
+GROUP  BY ct.[product_category_name_english]
+ORDER  BY revenue DESC;
+
+go
+
+-- revenue_contribution_pct
+WITH category_revenue
+     AS (SELECT ct.[product_category_name_english] AS category_name,
+                Sum(oi.price)                       AS revenue
+         FROM   order_items oi
+                JOIN orders o
+                  ON o.order_id = oi.order_id
+                JOIN products p
+                  ON p.product_id = oi.product_id
+                JOIN category_translation ct
+                  ON ct.product_category_name = p.product_category_name
+         WHERE  o.order_status = 'delivered'
+         GROUP  BY ct.[product_category_name_english])
+SELECT category_name,
+       revenue,
+       Round(revenue * 100.0 / Sum(revenue)
+                                 OVER(), 2) AS revenue_contribution_pct
+FROM   category_revenue
+ORDER  BY revenue DESC;
+
+go 
+
 
 
 
