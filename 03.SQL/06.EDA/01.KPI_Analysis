@@ -1,1 +1,89 @@
+                            /*===================================================
+                                                 KPIS Analysis 
+                             ===================================================*/ 
+go
+
+-- 1. Total Orders
+-------------------
+SELECT Count(*) AS total_orders
+FROM   orders;
+go
+
+
+-- 2. Successful Orders
+-----------------------
+select count(*) as successful_orders
+from orders
+where order_status = 'delivered';
+go
+
+
+
+-- 3. Successful Order Rate
+---------------------------
+select
+count(*) as total_orders,
+sum(case
+when order_status = 'delivered' then 1 else 0
+   end) as successful_orders,
+round(
+sum(case when order_status = 'delivered' then 1
+       else 0
+  end) * 100.0 / count(*),
+  2
+) as successful_rate
+from orders;
+go
+
+
+-- 4. Total Revenue
+-------------------
+select 
+sum(price) as total_revenue 
+from order_items oi
+join orders o 
+on o.order_id = oi.order_id
+where o.order_status = 'delivered'; 
+go 
+
+
+--5. Average Order Value (AOV)
+------------------------------
+select  round(
+sum(oi.price) / count(distinct o.order_id) ,2
+)  as AVO
+from orders o 
+join order_items oi 
+on o.order_id = oi.order_id 
+where o.order_status = 'delivered' ;
+go 
+
+
+-- 6. Total Customers
+---------------------
+select count(distinct customer_unique_id) as total_customers 
+from customers ;
+go
+
+
+
+-- 7. Cancelled Orders
+----------------------
+select count(*) as canceled_orders 
+from orders
+where order_status = 'canceled'; 
+go 
+
+
+
+-- 8. Average Delivery Time
+---------------------------
+select avg(
+datediff(Day,
+order_purchase_timestamp , order_delivered_customer_date 
+) ) as avg_delivery_date_days
+from orders 
+where order_status = 'delivered'; 
+go 
+
 
