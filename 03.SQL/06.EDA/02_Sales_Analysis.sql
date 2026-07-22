@@ -147,6 +147,34 @@ go
 
 -- 7. average product price by category
 ---------------------------------------
+go 
+
+select * from order_items ; 
+go 
+
+select * from products ; 
+go 
+
+select * from orders ; 
+go 
+
+select * from category_translation ; 
+go 
+
+select ct.[ product_category_name_english] , round(avg(oi.price), 2)  as avg_price 
+from category_translation ct 
+join products p 
+on p.product_category_name = ct.product_category_name
+join order_items oi 
+on p.product_id= oi.product_id
+join orders o 
+on o.order_id = oi.order_id
+where o.order_status = 'delivered' 
+group by ct.[ product_category_name_english] 
+order by avg_price desc ; 
+go 
+
+
 
 -- 8. highest priced products
 -----------------------------
