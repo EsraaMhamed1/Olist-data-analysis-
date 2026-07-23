@@ -39,6 +39,26 @@ group by customer_city
 order by total_customers desc; 
 go 
 
+
+--4. Top Customers by Number of Orders 
+--------------------------------------  
+go 
+
+select  * from orders ; 
+go 
+
+select * from customers  ; 
+go 
+
+select top(10) customer_unique_id, count(o.order_id ) as num_of_orders 
+from orders o 
+join customers c 
+on o.customer_id = c.customer_id 
+where o.order_status = 'delivered' 
+group by customer_unique_id 
+order by num_of_orders desc; 
+go
+
 --4. New vs Returning Customers
 -------------------------------
 
