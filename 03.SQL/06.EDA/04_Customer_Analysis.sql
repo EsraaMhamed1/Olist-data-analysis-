@@ -62,11 +62,7 @@ go
 --4. New vs Returning Customers
 -------------------------------
 
---5. Customer Distribution by State
------------------------------------
 
---6. Customers per Order
-------------------------
 
 --7. Average Orders per Customer
 --------------------------------
