@@ -1,9 +1,4 @@
 
-                    /*==============================================
-                              Sales Anaysis 
-                    ================================================*/
-go 
-
 -- 1. revenue by category
 -------------------------
 select ct.[ product_category_name_english] as Category  ,
